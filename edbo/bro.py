@@ -42,7 +42,7 @@ class BO:
                  matern_nu=2.5, lengthscale_prior=[GammaPrior(2.0, 0.2), 5.0],
                  outputscale_prior=[GammaPrior(5.0, 0.5), 8.0],
                  noise_prior=[GammaPrior(1.5, 0.5), 1.0],
-                 computational_objective=None
+                 computational_objective=None, initial_sample = None
                  ):
         
         """
@@ -139,7 +139,9 @@ class BO:
                               duplicates=duplicate_experiments)
         
         # Initialize experiment init sequence
-        self.init_seq = Init(init_method, batch_size)
+        if initial_sample == None:
+            initial_sample = batch_size
+        self.init_seq = Init(init_method, initial_sample)
         
         # Initialize other stuff
         self.base_model = model # before eval for retraining
